@@ -1,20 +1,32 @@
 package com.example.pokemonapp.domain
 
+import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.pokemonapp.data.Pokemon
 import com.example.pokemonapp.data.Response
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class PokemonRepositoryImpl @Inject constructor(
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val storage : FirebaseStorage
 ) : PokemonRepository {
+
+    override suspend fun addImageToStorage(imageUri: Uri) {
+         storage.reference.child("pokemonImg")
+            .putFile(imageUri).await()
+            .storage.downloadUrl.await()
+    }
 
 
     override suspend fun addPokemon(pokemon: Pokemon) {
@@ -24,7 +36,8 @@ class PokemonRepositoryImpl @Inject constructor(
             .addOnSuccessListener {  }
     }
 
-    override suspend fun getPokemon(pokemonList : ArrayList<Pokemon>) : List<Pokemon>{
+    override fun readPokemon() {
+        val pokemonList : ArrayList<Pokemon> = arrayListOf()
         db.collection("pokemons").addSnapshotListener{
             value,error->
             if (error != null) {
@@ -37,6 +50,5 @@ class PokemonRepositoryImpl @Inject constructor(
                 }
             }
         }
-        return pokemonList
     }
 }

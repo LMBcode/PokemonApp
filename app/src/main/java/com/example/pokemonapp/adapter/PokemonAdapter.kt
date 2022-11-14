@@ -7,7 +7,7 @@ import com.example.pokemonapp.data.Pokemon
 import com.example.pokemonapp.databinding.FragmentAddpokemonBinding
 import com.example.pokemonapp.databinding.PokemonitemBinding
 
-class PokemonAdapter(private val pokemon : ArrayList<Pokemon>) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
+class PokemonAdapter(private val pokemon : ArrayList<Pokemon>,private val onPokemonClick : (pokemon:Pokemon) -> Unit) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
 
 
 
@@ -24,6 +24,10 @@ class PokemonAdapter(private val pokemon : ArrayList<Pokemon>) : RecyclerView.Ad
         val current = pokemon[position]
         holder.binding.name.text = current.name
         holder.binding.type.text = current.type
+        fun bind(pokemon : Pokemon){
+            holder.binding.cardView.setOnClickListener { onPokemonClick.invoke(pokemon) }
+        }
+        holder.apply { bind(current) }
     }
 
     override fun getItemCount(): Int {

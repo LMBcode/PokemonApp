@@ -1,5 +1,6 @@
 package com.example.pokemonapp.presentation
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,8 @@ class PokemonViewModel @Inject constructor(
     private val repo: PokemonRepository
 ): ViewModel() {
 
+    private val _pokemon = MutableLiveData<List<Pokemon>>()
+    val pokemon : LiveData<List<Pokemon>> get() =  _pokemon
 
 
     fun addPokemon(pokemon: Pokemon){
@@ -24,10 +27,16 @@ class PokemonViewModel @Inject constructor(
         }
     }
 
-    fun getPokemon(pokemon: ArrayList<Pokemon>){
+    fun addImageToStorage(imageUri: Uri){
         viewModelScope.launch {
-            repo.getPokemon(pokemon)
+            repo.addImageToStorage(imageUri)
         }
     }
+
+    fun observePokemon() : LiveData<List<Pokemon>>{
+        repo.readPokemon()
+        return _pokemon
+    }
+
 
 }

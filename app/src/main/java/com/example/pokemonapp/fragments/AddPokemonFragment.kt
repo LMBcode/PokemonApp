@@ -49,7 +49,7 @@ class AddPokemonFragment : Fragment() {
             Pokemon(binding.name.text.toString(),
                 binding.desc.text.toString(),
                 binding.type.text.toString())
-
         )
+        viewModel.addImageToStorage()
     }
 }
