@@ -1,5 +1,6 @@
 package com.example.pokemonapp.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,11 @@ class PokemonAdapter(private val pokemon : ArrayList<Pokemon>,private val onPoke
 
 
 
-    class ViewHolder(val binding : PokemonitemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding : PokemonitemBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bindImage(item : Uri){
+            binding.image.setImageURI(item)
+        }
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

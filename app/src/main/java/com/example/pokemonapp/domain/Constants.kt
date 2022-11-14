@@ -9,3 +9,8 @@ object Constants {
     const val POKEMON_DESC ="pokemonDesc"
 
 }
+
+object FirebaseStorageConstants {
+    val ROOT_DIRECTORY = "app"
+    val IMAGES = "pokemon"
+}

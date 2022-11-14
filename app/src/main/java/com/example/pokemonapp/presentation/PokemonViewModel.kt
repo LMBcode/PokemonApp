@@ -27,9 +27,10 @@ class PokemonViewModel @Inject constructor(
         }
     }
 
-    fun addImageToStorage(imageUri: Uri){
+    fun addImageToStorage(imageUri: Uri,onResult : (Response<Uri>) -> Unit){
+        onResult.invoke(Response.Loading)
         viewModelScope.launch {
-            repo.addImageToStorage(imageUri)
+            repo.addImageToStorage(imageUri,onResult)
         }
     }
 
