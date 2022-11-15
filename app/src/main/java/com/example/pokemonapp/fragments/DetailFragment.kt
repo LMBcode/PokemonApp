@@ -57,8 +57,8 @@ class DetailFragment : Fragment() {
     private fun pokemonBody(){
         binding.pokemonGender.text = arguments?.getString(POKEMON_GENDER)
         binding.pokemonAbility.text = arguments?.getString(POKEMON_ABILITY)
-        binding.weight.text = arguments?.getString(POKEMON_WEIGHT) + " lb"
-        binding.height.text = arguments?.getString(POKEMON_SIZE) + " ft"
+        binding.weight.text = arguments?.getString(POKEMON_WEIGHT) + " lbs"
+        binding.height.text = arguments?.getString(POKEMON_SIZE)
     }
 
     private fun progress(){

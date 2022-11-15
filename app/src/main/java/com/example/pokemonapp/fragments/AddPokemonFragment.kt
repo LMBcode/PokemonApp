@@ -71,23 +71,7 @@ class AddPokemonFragment : Fragment() {
 
     }
 
-  /*  private fun getImageUrls(): List<String> {
-        if (imageUris.isNotEmpty()){
-            return imageUris.map { it.toString() }
-        }else{
-            return objPokemon?.images ?: arrayListOf()
-        }
-    }*/
 
-    private fun addPokemon(){
-        viewModel.addPokemon(
-            Pokemon(name = binding.name.text.toString(),
-                description = binding.desc.text.toString(),
-                type= binding.type.text.toString(),
-                pokemonImage = imageUri.toString()
-            )
-        )
-    }
 
     private fun uploadImage(){
         if(imageUris.isNotEmpty()){
@@ -103,9 +87,11 @@ class AddPokemonFragment : Fragment() {
                     is Response.Success ->{
                         Toast.makeText(activity,"SUCCESS",Toast.LENGTH_SHORT).show()
                         viewModel.addPokemon(
-                            Pokemon(name = binding.name.text.toString(),
+                            Pokemon(
+                                id = binding.number.text.toString().toInt(),
+                                name = binding.name.text.toString(),
                                description =  binding.desc.text.toString(),
-                               type=  binding.type.text.toString(),
+                               type=  binding.type.text.toString().uppercase(),
                                 pokemonImage = imageUri.toString(),
                                 pokemonAbility = binding.ability.text.toString(),
                                 pokemonAttack = binding.attack.text.toString().toInt(),

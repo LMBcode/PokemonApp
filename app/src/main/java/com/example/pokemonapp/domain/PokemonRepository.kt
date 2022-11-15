@@ -3,6 +3,7 @@ package com.example.pokemonapp.domain
 import android.net.Uri
 import com.example.pokemonapp.data.Pokemon
 import com.example.pokemonapp.data.Response
+import com.google.firebase.firestore.auth.User
 
 interface PokemonRepository {
 

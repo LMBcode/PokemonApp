@@ -1,5 +1,7 @@
 package com.example.pokemonapp.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebaseAuth.AuthRepository
@@ -16,11 +18,11 @@ class AuthViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : ViewModel() {
 
-    private val _loginFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
-    val loginFlow: StateFlow<Resource<FirebaseUser>?> = _loginFlow
+    private val _loginFlow = MutableLiveData<Resource<FirebaseUser>?>(null)
+    val loginFlow: LiveData<Resource<FirebaseUser>?> = _loginFlow
 
-    private val _signupFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
-    val signupFlow: StateFlow<Resource<FirebaseUser>?> = _signupFlow
+    private val _signupFlow = MutableLiveData<Resource<FirebaseUser>?>(null)
+    val signupFlow: LiveData<Resource<FirebaseUser>?> = _signupFlow
 
     val currentUser: FirebaseUser?
         get() = repository.currentUser

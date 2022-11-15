@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.pokemonapp.data.Pokemon
 
 
-@Database(entities = [Pokemon::class], version = 2)
+@Database(entities = [Pokemon::class], version = 4)
 abstract class BookmarkDatabase : RoomDatabase(){
         abstract fun bookmarkDao() : BookmarkDao
 }

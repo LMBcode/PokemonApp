@@ -7,7 +7,8 @@ import com.example.pokemonapp.data.Response
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -49,17 +50,11 @@ class PokemonRepositoryImpl @Inject constructor(
     }
 
     override fun readPokemon() {
-        val pokemonList : ArrayList<Pokemon> = arrayListOf()
-        db.collection("pokemons").addSnapshotListener{
-            value,error->
-            if (error != null) {
-                Log.e("Error", error.message.toString())
-            }
-            for (dc: DocumentChange in value?.documentChanges!!) {
-                if (dc.type == DocumentChange.Type.ADDED) {
-                    pokemonList.add(dc.document.toObject(Pokemon::class.java))
-                    Log.d("POKELIST",pokemonList.toString())
-                }
+        val pokemonList = arrayListOf<Pokemon>()
+        db.collection("pokemons").get().addOnSuccessListener {
+            for (document in it) {
+                val pokemons = document.toObject(Pokemon::class.java)
+                pokemonList.add(pokemons)
             }
         }
     }

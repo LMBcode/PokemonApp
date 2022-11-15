@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemonapp.R
 import com.example.pokemonapp.adapter.PokemonAdapter
 import com.example.pokemonapp.data.Pokemon
+import com.example.pokemonapp.data.Response
 import com.example.pokemonapp.databinding.FragmentHomeBinding
 import com.example.pokemonapp.domain.Constants.POKEMON_ABILITY
 import com.example.pokemonapp.domain.Constants.POKEMON_ATTACK
@@ -27,6 +29,7 @@ import com.example.pokemonapp.domain.Constants.POKEMON_SPECIE
 import com.example.pokemonapp.domain.Constants.POKEMON_SPEED
 import com.example.pokemonapp.domain.Constants.POKEMON_TYPE
 import com.example.pokemonapp.domain.Constants.POKEMON_WEIGHT
+import com.example.pokemonapp.presentation.AuthViewModel
 import com.example.pokemonapp.presentation.BookmarkViewModel
 import com.example.pokemonapp.presentation.PokemonViewModel
 import com.google.firebase.firestore.DocumentChange
@@ -42,8 +45,9 @@ class HomeFragment : Fragment() {
     private lateinit var layoutManager : GridLayoutManager
     private lateinit var pokemonList : ArrayList<Pokemon>
     private val db = FirebaseFirestore.getInstance()
+    private val pokemonViewModel : PokemonViewModel by viewModels()
     private val bookMarkViewModel : BookmarkViewModel by viewModels()
-    private val viewModel : PokemonViewModel by viewModels()
+    private val authviewModel : AuthViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,10 +67,29 @@ class HomeFragment : Fragment() {
         binding.actionbutton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment2_to_addPokemonFragment2)
         }
+        userAuth()
+        addPokemonToBookmark()
         database()
         search()
-        addPokemonToBookmark()
 
+    }
+
+    private fun userAuth(){
+        if (authviewModel.currentUser != null){
+            binding.authentication.text = "SIGN OUT"
+            binding.authentication.setOnClickListener {
+                authviewModel.logout()
+                findNavController().navigate(R.id.action_homeFragment2_self)
+                binding.authentication.text = "SIGN IN"
+            }
+        }else{
+            binding.authentication.text = "SIGN IN"
+        }
+        if( binding.authentication.text == "SIGN IN"){
+            binding.authentication.setOnClickListener{
+                findNavController().navigate(R.id.action_homeFragment2_to_loginFragment)
+            }
+        }
     }
 
     private fun search(){
@@ -84,7 +107,7 @@ class HomeFragment : Fragment() {
         })    }
 
     private fun database(){
-        db.collection("pokemons").addSnapshotListener{
+       db.collection("pokemons").addSnapshotListener{
                 value,error->
             if (error != null) {
                 Log.e("Error", error.message.toString())
@@ -100,17 +123,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun addPokemonToBookmark(){
-        adapter.setOnItemClickListener(object : PokemonAdapter.OnItemClickListener{
-            override fun onClick(position: Int) {
-                val pokemon = pokemonList[position]
-                val obj = Pokemon(
-                    name = pokemon.name,
-                    type = pokemon.type,
-                    pokemonImage = pokemon.pokemonImage
-                )
-                bookMarkViewModel.insertPokemon(obj)
-            }
-        })
+            adapter.setOnItemClickListener(object : PokemonAdapter.OnItemClickListener {
+                override fun onClick(position: Int) {
+                    if (authviewModel.currentUser != null) {
+                        val pokemon = pokemonList[position]
+                        val obj = Pokemon(
+                            id = pokemon.id,
+                            name = pokemon.name,
+                            type = pokemon.type,
+                            pokemonImage = pokemon.pokemonImage
+                        )
+                        bookMarkViewModel.insertPokemon(obj)
+                    }
+                    else{
+                        Toast.makeText(requireContext(),"Login required to add to bookmark",Toast.LENGTH_LONG).show()
+                    }
+                }
+            })
     }
 
     private fun getArgs(pokemon: Pokemon){
