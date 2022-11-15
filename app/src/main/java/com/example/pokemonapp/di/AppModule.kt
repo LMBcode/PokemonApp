@@ -1,8 +1,11 @@
 package com.example.pokemonapp.di
 
+import com.example.firebaseAuth.AuthRepository
+import com.example.firebaseAuth.AuthRepositoryImpl
 import com.example.pokemonapp.domain.FirebaseStorageConstants
 import com.example.pokemonapp.domain.PokemonRepository
 import com.example.pokemonapp.domain.PokemonRepositoryImpl
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -37,6 +40,15 @@ class AppModule {
     fun provideRepositorty(db : FirebaseFirestore,storage : StorageReference) : PokemonRepository{
         return PokemonRepositoryImpl(db,storage)
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuthInstance(): FirebaseAuth{
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    fun providesAuthRepository(impl: AuthRepositoryImpl): AuthRepository = impl
 
 
 }
