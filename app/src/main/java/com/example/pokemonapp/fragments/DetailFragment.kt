@@ -85,7 +85,7 @@ class DetailFragment : Fragment() {
                     pokemonImageLayout.setBackgroundColor(Color.parseColor("#D21D26"))
                 }
                 "WATER" -> {
-                    pokemonImageLayout.setBackgroundColor(Color.parseColor("##6BC6EF"))
+                    pokemonImageLayout.setBackgroundColor(Color.parseColor("#6BC6EF"))
                 }
                 "BUG" -> {
                     pokemonImageLayout.setBackgroundColor(Color.parseColor("#AAB350"))
