@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    android:layout_marginBottom="50dp"
     android:layout_height="match_parent"
     tools:context=".fragments.AddPokemonFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
@@ -27,12 +27,22 @@
         android:textStyle="bold"/>
 
     <EditText
+        android:id="@+id/number"
+        android:hint="Pokemon Number"
+        android:layout_width="match_parent"
+        android:inputType="number"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="50dp"
+        />
+
+    <EditText
         android:id="@+id/name"
         android:hint="Pokemon Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toBottomOf="@id/number"
+
         />
 
     <EditText
@@ -118,7 +128,7 @@
         />
     <EditText
         android:id="@+id/size"
-        android:hint="Pokemon Size"
+        android:hint="Pokemon Height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/weight"
