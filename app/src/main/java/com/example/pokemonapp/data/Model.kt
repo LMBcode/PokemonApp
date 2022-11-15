@@ -1,10 +1,12 @@
 package com.example.pokemonapp.data
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity
 data class Pokemon(
-    val name : String ?= null,
+    @PrimaryKey
+    val name : String = "",
     val description : String ?= null,
     val type : String ?= null,
     val pokemonImage : String ?= null,

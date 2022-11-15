@@ -330,7 +330,7 @@
             tools:text="ASDASDA,DDDADA"
             style="@style/TextStyle"
             android:textSize="16sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white_93"/>
 
         <ProgressBar
             android:id="@+id/detail_progress_bar"

@@ -1,6 +1,5 @@
 package com.example.pokemonapp.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemonapp.R
@@ -19,6 +17,7 @@ import com.example.pokemonapp.domain.Constants.POKEMON_ABILITY
 import com.example.pokemonapp.domain.Constants.POKEMON_ATTACK
 import com.example.pokemonapp.domain.Constants.POKEMON_DEFENSE
 import com.example.pokemonapp.domain.Constants.POKEMON_DESC
+import com.example.pokemonapp.domain.Constants.POKEMON_GENDER
 import com.example.pokemonapp.domain.Constants.POKEMON_HP
 import com.example.pokemonapp.domain.Constants.POKEMON_IMAGE
 import com.example.pokemonapp.domain.Constants.POKEMON_NAME
@@ -28,6 +27,7 @@ import com.example.pokemonapp.domain.Constants.POKEMON_SPECIE
 import com.example.pokemonapp.domain.Constants.POKEMON_SPEED
 import com.example.pokemonapp.domain.Constants.POKEMON_TYPE
 import com.example.pokemonapp.domain.Constants.POKEMON_WEIGHT
+import com.example.pokemonapp.presentation.BookmarkViewModel
 import com.example.pokemonapp.presentation.PokemonViewModel
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -42,6 +42,7 @@ class HomeFragment : Fragment() {
     private lateinit var layoutManager : GridLayoutManager
     private lateinit var pokemonList : ArrayList<Pokemon>
     private val db = FirebaseFirestore.getInstance()
+    private val bookMarkViewModel : BookmarkViewModel by viewModels()
     private val viewModel : PokemonViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +65,7 @@ class HomeFragment : Fragment() {
         }
         database()
         search()
+        addPokemonToBookmark()
 
     }
 
@@ -98,7 +100,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun addPokemonToBookmark(){
-
+        adapter.setOnItemClickListener(object : PokemonAdapter.OnItemClickListener{
+            override fun onClick(position: Int) {
+                val pokemon = pokemonList[position]
+                val obj = Pokemon(
+                    name = pokemon.name,
+                    type = pokemon.type,
+                    pokemonImage = pokemon.pokemonImage
+                )
+                bookMarkViewModel.insertPokemon(obj)
+            }
+        })
     }
 
     private fun getArgs(pokemon: Pokemon){
@@ -110,6 +122,7 @@ class HomeFragment : Fragment() {
         args.putSerializable(POKEMON_SPEED,pokemon.pokemonSpeed)
         args.putSerializable(POKEMON_HP,pokemon.pokemonHp)
         args.putSerializable(POKEMON_ABILITY,pokemon.pokemonAbility)
+        args.putSerializable(POKEMON_GENDER,pokemon.pokemonGender)
         args.putSerializable(POKEMON_POWER,pokemon.pokemonPower)
         args.putSerializable(POKEMON_SPECIE,pokemon.pokemonSpecie)
         args.putSerializable(POKEMON_DEFENSE,pokemon.pokemonDefense)

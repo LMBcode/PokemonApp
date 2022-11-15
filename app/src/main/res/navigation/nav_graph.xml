@@ -30,4 +30,9 @@
         android:id="@+id/detailFragment"
         android:name="com.example.pokemonapp.fragments.DetailFragment"
         android:label="DetailFragment" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.example.pokemonapp.fragments.BookmarkFragment"
+        android:label="fragment_bookmark"
+        tools:layout="@layout/fragment_bookmark" />
 </navigation>

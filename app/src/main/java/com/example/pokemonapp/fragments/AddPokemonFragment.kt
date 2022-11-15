@@ -65,7 +65,6 @@ class AddPokemonFragment : Fragment() {
                 }
         }
         binding.button.setOnClickListener {
-            addPokemon()
             uploadImage()
             findNavController().navigate(R.id.action_addPokemonFragment2_to_homeFragment2)
         }
@@ -82,9 +81,9 @@ class AddPokemonFragment : Fragment() {
 
     private fun addPokemon(){
         viewModel.addPokemon(
-            Pokemon(binding.name.text.toString(),
-                binding.desc.text.toString(),
-                binding.type.text.toString(),
+            Pokemon(name = binding.name.text.toString(),
+                description = binding.desc.text.toString(),
+                type= binding.type.text.toString(),
                 pokemonImage = imageUri.toString()
             )
         )
@@ -104,9 +103,9 @@ class AddPokemonFragment : Fragment() {
                     is Response.Success ->{
                         Toast.makeText(activity,"SUCCESS",Toast.LENGTH_SHORT).show()
                         viewModel.addPokemon(
-                            Pokemon(binding.name.text.toString(),
-                                binding.desc.text.toString(),
-                                binding.type.text.toString(),
+                            Pokemon(name = binding.name.text.toString(),
+                               description =  binding.desc.text.toString(),
+                               type=  binding.type.text.toString(),
                                 pokemonImage = imageUri.toString(),
                                 pokemonAbility = binding.ability.text.toString(),
                                 pokemonAttack = binding.attack.text.toString().toInt(),
