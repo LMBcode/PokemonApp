@@ -24,7 +24,7 @@
                 android:id="@+id/pokemon_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="20dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@+id/pokemon_name"
@@ -99,7 +99,7 @@
 
         <TextView
             android:id="@+id/weight"
-            style="@style/TextStyle"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -112,7 +112,7 @@
 
         <TextView
             android:id="@+id/height"
-            style="@style/TextStyle"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="21sp"
@@ -276,34 +276,61 @@
             app:progressView_labelSize="12sp"
             app:progressView_radius="12dp" />
 
+
+
+
+
         <TextView
-            android:id="@+id/exp"
+            android:id="@+id/ability"
+            android:layout_width="wrap_content"
+            style="@style/TextStyle"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/progress_speed"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/white_93"
+            android:textSize="25sp"
+            android:text="Abilities : "/>
+
+
+        <TextView
+            android:id="@+id/pokemonAbility"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/exp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/white_70"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/speed" />
+            app:layout_constraintTop_toBottomOf="@id/progress_speed"
+            app:layout_constraintStart_toEndOf="@id/ability"
+            android:layout_marginTop="20dp"
+            tools:text="jumping , flying"
+            style="@style/TextStyle"
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
 
-        <com.skydoves.progressview.ProgressView
-            android:id="@+id/progress_exp"
-            android:layout_width="0dp"
-            android:layout_height="18dp"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toBottomOf="@+id/exp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/progress_hp"
-            app:layout_constraintTop_toTopOf="@+id/exp"
-            app:progressView_colorBackground="@color/white"
-            app:progressView_colorProgress="@color/md_green_200"
-            app:progressView_labelColorInner="@color/white"
-            app:progressView_labelColorOuter="@color/black"
-            app:progressView_labelSize="12sp"
-            app:progressView_radius="12dp" />
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            style="@style/TextStyle"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ability"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/white_93"
+            android:textSize="25sp"
+            android:text="Gender : "/>
+
+
+        <TextView
+            android:id="@+id/pokemonGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ability"
+            app:layout_constraintStart_toEndOf="@id/gender"
+            android:layout_marginTop="20dp"
+            tools:text="ASDASDA,DDDADA"
+            style="@style/TextStyle"
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
 
         <ProgressBar
             android:id="@+id/detail_progress_bar"

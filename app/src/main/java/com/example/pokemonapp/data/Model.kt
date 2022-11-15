@@ -1,5 +1,8 @@
 package com.example.pokemonapp.data
 
+import androidx.room.Entity
+
+@Entity
 data class Pokemon(
     val name : String ?= null,
     val description : String ?= null,

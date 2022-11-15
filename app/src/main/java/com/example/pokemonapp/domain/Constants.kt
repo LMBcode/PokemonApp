@@ -17,6 +17,7 @@ object Constants {
     const val POKEMON_DEFENSE ="pokemonDefense"
     const val POKEMON_SPEED ="pokemonSpeed"
     const val POKEMON_SPECIE ="pokemonSpecie"
+    const val POKEMON_GENDER ="pokemonGender"
 
 }
 

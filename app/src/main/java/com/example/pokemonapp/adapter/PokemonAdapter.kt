@@ -15,14 +15,25 @@ import com.example.pokemonapp.databinding.PokemonitemBinding
 
 class PokemonAdapter(private val context : Context, private var pokemon : ArrayList<Pokemon>, private val onPokemonClick : (pokemon:Pokemon) -> Unit) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>(),Filterable {
 
+    private lateinit var mListener : OnItemClickListener
+    interface OnItemClickListener{
+        fun onClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener : OnItemClickListener){
+        mListener = listener
+    }
+
     var pokemonFilter = pokemon
 
     fun setDataFilter(){
         this.pokemonFilter = pokemon
     }
-    class ViewHolder(val binding : PokemonitemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bindImage(item : Uri){
-            binding.image.setImageURI(item)
+    class ViewHolder(val binding : PokemonitemBinding,listener : OnItemClickListener) : RecyclerView.ViewHolder(binding.root){
+        init {
+            binding.bookmark.setOnClickListener {
+                listener.onClick(adapterPosition)
+            }
         }
     }
     override fun onCreateViewHolder(
@@ -30,7 +41,7 @@ class PokemonAdapter(private val context : Context, private var pokemon : ArrayL
         viewType: Int
     ): ViewHolder {
         val binding = PokemonitemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding,mListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

@@ -15,10 +15,19 @@ import com.example.pokemonapp.R
 import com.example.pokemonapp.adapter.PokemonAdapter
 import com.example.pokemonapp.data.Pokemon
 import com.example.pokemonapp.databinding.FragmentHomeBinding
+import com.example.pokemonapp.domain.Constants.POKEMON_ABILITY
+import com.example.pokemonapp.domain.Constants.POKEMON_ATTACK
+import com.example.pokemonapp.domain.Constants.POKEMON_DEFENSE
 import com.example.pokemonapp.domain.Constants.POKEMON_DESC
+import com.example.pokemonapp.domain.Constants.POKEMON_HP
 import com.example.pokemonapp.domain.Constants.POKEMON_IMAGE
 import com.example.pokemonapp.domain.Constants.POKEMON_NAME
+import com.example.pokemonapp.domain.Constants.POKEMON_POWER
+import com.example.pokemonapp.domain.Constants.POKEMON_SIZE
+import com.example.pokemonapp.domain.Constants.POKEMON_SPECIE
+import com.example.pokemonapp.domain.Constants.POKEMON_SPEED
 import com.example.pokemonapp.domain.Constants.POKEMON_TYPE
+import com.example.pokemonapp.domain.Constants.POKEMON_WEIGHT
 import com.example.pokemonapp.presentation.PokemonViewModel
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -88,12 +97,25 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun addPokemonToBookmark(){
+
+    }
+
     private fun getArgs(pokemon: Pokemon){
         val args = Bundle()
         args.putSerializable(POKEMON_NAME,pokemon.name)
         args.putSerializable(POKEMON_TYPE,pokemon.type)
         args.putSerializable(POKEMON_DESC,pokemon.description)
         args.putSerializable(POKEMON_IMAGE,pokemon.pokemonImage)
+        args.putSerializable(POKEMON_SPEED,pokemon.pokemonSpeed)
+        args.putSerializable(POKEMON_HP,pokemon.pokemonHp)
+        args.putSerializable(POKEMON_ABILITY,pokemon.pokemonAbility)
+        args.putSerializable(POKEMON_POWER,pokemon.pokemonPower)
+        args.putSerializable(POKEMON_SPECIE,pokemon.pokemonSpecie)
+        args.putSerializable(POKEMON_DEFENSE,pokemon.pokemonDefense)
+        args.putSerializable(POKEMON_ATTACK,pokemon.pokemonAttack)
+        args.putSerializable(POKEMON_SIZE,pokemon.pokemonSize)
+        args.putSerializable(POKEMON_WEIGHT,pokemon.pokemonWeight)
         findNavController().navigate(R.id.detailFragment,args)
         Log.d("IMAGE", pokemon.pokemonImage.toString())
 

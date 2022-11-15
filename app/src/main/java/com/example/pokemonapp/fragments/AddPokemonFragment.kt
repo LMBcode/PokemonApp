@@ -107,7 +107,17 @@ class AddPokemonFragment : Fragment() {
                             Pokemon(binding.name.text.toString(),
                                 binding.desc.text.toString(),
                                 binding.type.text.toString(),
-                                pokemonImage = imageUri.toString()
+                                pokemonImage = imageUri.toString(),
+                                pokemonAbility = binding.ability.text.toString(),
+                                pokemonAttack = binding.attack.text.toString().toInt(),
+                                pokemonDefense = binding.defense.text.toString().toInt(),
+                                pokemonHp = binding.hp.text.toString().toInt(),
+                                pokemonPower = binding.power.text.toString(),
+                                pokemonSize = binding.size.text.toString(),
+                                pokemonWeight = binding.weight.text.toString(),
+                                pokemonSpeed = binding.speed.text.toString().toInt(),
+                                pokemonSpecie = binding.species.text.toString(),
+                                pokemonGender = binding.gender.text.toString()
                             )
                         )
                     }
