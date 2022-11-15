@@ -16,6 +16,7 @@ import com.example.pokemonapp.adapter.PokemonAdapter
 import com.example.pokemonapp.data.Pokemon
 import com.example.pokemonapp.databinding.FragmentHomeBinding
 import com.example.pokemonapp.domain.Constants.POKEMON_DESC
+import com.example.pokemonapp.domain.Constants.POKEMON_IMAGE
 import com.example.pokemonapp.domain.Constants.POKEMON_NAME
 import com.example.pokemonapp.domain.Constants.POKEMON_TYPE
 import com.example.pokemonapp.presentation.PokemonViewModel
@@ -45,13 +46,31 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pokemonList = arrayListOf()
-        adapter = PokemonAdapter((pokemonList)){pokemon -> getArgs(pokemon)}
+        adapter = PokemonAdapter(requireContext(),pokemonList){pokemon -> getArgs(pokemon)}
         layoutManager = GridLayoutManager(activity,2)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = layoutManager
+        binding.actionbutton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment2_to_addPokemonFragment2)
+        }
         database()
+        search()
 
     }
+
+    private fun search(){
+        binding.SearchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                adapter.filter.filter(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return true
+            }
+
+        })    }
 
     private fun database(){
         db.collection("pokemons").addSnapshotListener{
@@ -74,7 +93,10 @@ class HomeFragment : Fragment() {
         args.putSerializable(POKEMON_NAME,pokemon.name)
         args.putSerializable(POKEMON_TYPE,pokemon.type)
         args.putSerializable(POKEMON_DESC,pokemon.description)
+        args.putSerializable(POKEMON_IMAGE,pokemon.pokemonImage)
         findNavController().navigate(R.id.detailFragment,args)
+        Log.d("IMAGE", pokemon.pokemonImage.toString())
+
     }
 
 }

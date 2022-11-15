@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/addPokemonFragment2">
+    app:startDestination="@id/homeFragment2">
 
     <fragment
         android:id="@+id/addPokemonFragment2"
@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_addPokemonFragment2"
+            app:destination="@id/addPokemonFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
