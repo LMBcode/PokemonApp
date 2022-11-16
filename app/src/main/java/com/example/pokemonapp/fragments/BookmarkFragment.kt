@@ -29,6 +29,7 @@ import com.example.pokemonapp.domain.Constants.POKEMON_SPECIE
 import com.example.pokemonapp.domain.Constants.POKEMON_SPEED
 import com.example.pokemonapp.domain.Constants.POKEMON_TYPE
 import com.example.pokemonapp.domain.Constants.POKEMON_WEIGHT
+import com.example.pokemonapp.presentation.AuthViewModel
 import com.example.pokemonapp.presentation.BookmarkViewModel
 import com.example.pokemonapp.presentation.PokemonViewModel
 import com.google.firebase.firestore.DocumentChange

@@ -2,9 +2,12 @@ package com.example.pokemonapp.domain
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.pokemonapp.data.Pokemon
 import com.example.pokemonapp.data.Response
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
@@ -22,24 +25,22 @@ class PokemonRepositoryImpl @Inject constructor(
     private val storage : StorageReference
 ) : PokemonRepository {
 
-    override suspend fun addImageToStorage(imageUri: Uri, onResult: (Response<Uri>) -> Unit) {
-        try {
-            val uri : Uri  = withContext(Dispatchers.IO) {
-                storage.child("pokemonImg")
-                    .putFile(imageUri)
-                    .await()
-                    .storage
-                    .downloadUrl
-                    .await()
-            }
-            onResult.invoke(Response.Success(uri))
-        }catch(e:FirebaseException) {
-            onResult.invoke(Response.Failure(e.message))
-        }
-        catch(e:Exception) {
-            onResult.invoke(Response.Failure(e.message))
-        }
+
+    override suspend fun addImageToStorage(imageUri: Uri) {
+        val time = System.currentTimeMillis()
+        storage.child(time.toString())
+            .putFile(imageUri)
+            .await()
+            .storage
+            .downloadUrl.addOnSuccessListener { }
+            .await()
+
     }
+
+
+
+
+
 
 
     override suspend fun addPokemon(pokemon: Pokemon) {
@@ -47,15 +48,23 @@ class PokemonRepositoryImpl @Inject constructor(
             .document(pokemon.name!!)
             .set(pokemon)
             .addOnSuccessListener {  }
+
+
     }
 
-    override fun readPokemon() {
-        val pokemonList = arrayListOf<Pokemon>()
+    override fun readPokemon(): LiveData<MutableList<Pokemon>> {
+        val mutableData = MutableLiveData<MutableList<Pokemon>>()
+        val pokemonList = mutableListOf<Pokemon>()
         db.collection("pokemons").get().addOnSuccessListener {
             for (document in it) {
                 val pokemons = document.toObject(Pokemon::class.java)
                 pokemonList.add(pokemons)
             }
+            mutableData.value = pokemonList
         }
+        return mutableData
     }
+
+
+
 }

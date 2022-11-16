@@ -22,23 +22,29 @@ class PokemonViewModel @Inject constructor(
     val pokemon : LiveData<Response<List<Pokemon>>> get() =  _pokemon
 
 
+
     fun addPokemon(pokemon: Pokemon){
         viewModelScope.launch {
             repo.addPokemon(pokemon)
         }
     }
 
-    fun addImageToStorage(imageUri: Uri,onResult : (Response<Uri>) -> Unit){
-        onResult.invoke(Response.Loading)
+    fun addImageToStorage(imageUri: Uri){
         viewModelScope.launch {
-            repo.addImageToStorage(imageUri,onResult)
+            repo.addImageToStorage(imageUri)
         }
     }
 
-    fun getPokemon() {
-        _pokemon.value = Response.Loading
-        repo.readPokemon()
+    @JvmName("getPokemon1")
+    fun getPokemon() : LiveData<MutableList<Pokemon>> {
+        val mutableData = MutableLiveData<MutableList<Pokemon>>()
+        repo.readPokemon().observeForever{ pokemonList ->
+            mutableData.value = pokemonList
+        }
+        return mutableData
     }
+
+
 
 
 }

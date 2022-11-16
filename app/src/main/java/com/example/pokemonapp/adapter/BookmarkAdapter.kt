@@ -133,7 +133,8 @@ class BookmarkAdapter(private val context: Context, private val pokemonList : Ar
 
     fun updateList(newList :List<Pokemon>){
         pokemonList.clear()
-        pokemonList.addAll(newList)
-        notifyDataSetChanged()
+        pokemonList.addAll(newList).also {
+            notifyItemInserted(itemCount-1)
+        }
     }
 }

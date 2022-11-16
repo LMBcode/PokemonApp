@@ -43,8 +43,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding
     private lateinit var adapter: PokemonAdapter
     private lateinit var layoutManager : GridLayoutManager
-    private lateinit var pokemonList : ArrayList<Pokemon>
-    private val db = FirebaseFirestore.getInstance()
+    private var pokemonList : MutableList<Pokemon> = arrayListOf()
     private val pokemonViewModel : PokemonViewModel by viewModels()
     private val bookMarkViewModel : BookmarkViewModel by viewModels()
     private val authviewModel : AuthViewModel by viewModels()
@@ -59,7 +58,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pokemonList = arrayListOf()
+        pokemonList = mutableListOf()
         adapter = PokemonAdapter(requireContext(),pokemonList){pokemon -> getArgs(pokemon)}
         layoutManager = GridLayoutManager(activity,2)
         binding.recyclerView.adapter = adapter
@@ -67,8 +66,10 @@ class HomeFragment : Fragment() {
         binding.actionbutton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment2_to_addPokemonFragment2)
         }
+        binding.refresh.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment2_self)
+        }
         userAuth()
-        addPokemonToBookmark()
         database()
         search()
 
@@ -107,40 +108,30 @@ class HomeFragment : Fragment() {
         })    }
 
     private fun database(){
-       db.collection("pokemons").addSnapshotListener{
-                value,error->
-            if (error != null) {
-                Log.e("Error", error.message.toString())
-            }
-            for (dc: DocumentChange in value?.documentChanges!!) {
-                if (dc.type == DocumentChange.Type.ADDED) {
-                    pokemonList.add(dc.document.toObject(Pokemon::class.java))
-                    Log.d("POKELIST",pokemonList.toString())
-                }
-            }
-            adapter.notifyDataSetChanged()
+       pokemonViewModel.getPokemon().observe(viewLifecycleOwner){
+            adapter.updateList(it)
+           adapter.notifyDataSetChanged()
+           adapter.setOnItemClickListener(object : PokemonAdapter.OnItemClickListener {
+               override fun onClick(position: Int) {
+                   if (authviewModel.currentUser != null) {
+                       val pokemon = it[position]
+                       val obj = Pokemon(
+                           id = pokemon.id,
+                           name = pokemon.name,
+                           type = pokemon.type,
+                           pokemonImage = pokemon.pokemonImage,
+                           isSaved = false
+                       )
+                       bookMarkViewModel.insertPokemon(obj)
+                   }
+                   else{
+                       Toast.makeText(requireContext(),"Login required to add to bookmark",Toast.LENGTH_LONG).show()
+                   }
+               }
+           })
         }
     }
 
-    private fun addPokemonToBookmark(){
-            adapter.setOnItemClickListener(object : PokemonAdapter.OnItemClickListener {
-                override fun onClick(position: Int) {
-                    if (authviewModel.currentUser != null) {
-                        val pokemon = pokemonList[position]
-                        val obj = Pokemon(
-                            id = pokemon.id,
-                            name = pokemon.name,
-                            type = pokemon.type,
-                            pokemonImage = pokemon.pokemonImage
-                        )
-                        bookMarkViewModel.insertPokemon(obj)
-                    }
-                    else{
-                        Toast.makeText(requireContext(),"Login required to add to bookmark",Toast.LENGTH_LONG).show()
-                    }
-                }
-            })
-    }
 
     private fun getArgs(pokemon: Pokemon){
         val args = Bundle()

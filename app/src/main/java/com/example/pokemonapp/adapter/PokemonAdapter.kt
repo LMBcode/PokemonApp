@@ -28,7 +28,9 @@ class PokemonAdapter(private val context : Context, private var pokemon : Mutabl
     fun setOnItemClickListener(listener : OnItemClickListener){
         mListener = listener
     }
-
+    fun updateList(list : MutableList<Pokemon>){
+        this.pokemon = list
+    }
     var pokemonFilter = pokemon
 
     fun setDataFilter(){
@@ -54,6 +56,10 @@ class PokemonAdapter(private val context : Context, private var pokemon : Mutabl
         val current = pokemon[position]
         holder.binding.name.text = current.name
         holder.binding.type.text = current.type
+        holder.binding.bookmark.setOnClickListener {
+            holder.binding.bookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
+            current.isSaved
+        }
         when(current.type){
             "GRASS" -> {
                 holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#007C42"))
@@ -141,10 +147,6 @@ class PokemonAdapter(private val context : Context, private var pokemon : Mutabl
         return pokemon.size
     }
 
-    fun updateList(list : MutableList<Pokemon>){
-        this.pokemon = list
-        notifyDataSetChanged()
-    }
 
     override fun getFilter(): Filter {
         return object : Filter(){
