@@ -69,8 +69,8 @@ class HomeFragment : Fragment() {
         binding.refresh.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment2_self)
         }
-        userAuth()
         database()
+        userAuth()
         search()
 
     }
@@ -119,8 +119,7 @@ class HomeFragment : Fragment() {
                            id = pokemon.id,
                            name = pokemon.name,
                            type = pokemon.type,
-                           pokemonImage = pokemon.pokemonImage,
-                           isSaved = false
+                           pokemonImage = pokemon.pokemonImage
                        )
                        bookMarkViewModel.insertPokemon(obj)
                    }

@@ -10,16 +10,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pokemonapp.R
 import com.example.pokemonapp.data.Pokemon
 import com.example.pokemonapp.databinding.FragmentAddpokemonBinding
 import com.example.pokemonapp.databinding.PokemonitemBinding
+import com.example.pokemonapp.presentation.BookmarkViewModel
 import java.io.IOException
 
 class PokemonAdapter(private val context : Context, private var pokemon : MutableList<Pokemon>, private val onPokemonClick : (pokemon:Pokemon) -> Unit) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>(),Filterable {
-
     private lateinit var mListener : OnItemClickListener
     interface OnItemClickListener{
         fun onClick(position: Int)
@@ -40,6 +41,7 @@ class PokemonAdapter(private val context : Context, private var pokemon : Mutabl
         init {
             binding.bookmark.setOnClickListener {
                 listener.onClick(adapterPosition)
+                binding.bookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
             }
         }
     }
@@ -56,10 +58,7 @@ class PokemonAdapter(private val context : Context, private var pokemon : Mutabl
         val current = pokemon[position]
         holder.binding.name.text = current.name
         holder.binding.type.text = current.type
-        holder.binding.bookmark.setOnClickListener {
-            holder.binding.bookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
-            current.isSaved
-        }
+
         when(current.type){
             "GRASS" -> {
                 holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#007C42"))
