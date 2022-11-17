@@ -278,14 +278,38 @@
 
 
 
+        <TextView
+            android:id="@+id/specie"
+            android:layout_width="wrap_content"
+            style="@style/TextStyle"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/progress_speed"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/white_93"
+            android:textSize="25sp"
+            android:text="Specie : "/>
 
+
+        <TextView
+            android:id="@+id/pokemonSpecie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/progress_speed"
+            app:layout_constraintStart_toEndOf="@id/specie"
+            android:layout_marginTop="20dp"
+            tools:text="jumping , flying"
+            style="@style/TextStyle"
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/ability"
             android:layout_width="wrap_content"
             style="@style/TextStyle"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/progress_speed"
+            app:layout_constraintTop_toBottomOf="@id/specie"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="16dp"
             android:fontFamily="sans-serif-smallcaps"
@@ -298,7 +322,7 @@
             android:id="@+id/pokemonAbility"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/progress_speed"
+            app:layout_constraintTop_toBottomOf="@id/specie"
             app:layout_constraintStart_toEndOf="@id/ability"
             android:layout_marginTop="20dp"
             tools:text="jumping , flying"
