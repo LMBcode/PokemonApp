@@ -82,8 +82,13 @@ class AddPokemonFragment : Fragment() {
         }
         Log.d("attackP", binding.attackNumber.text.toString())
         binding.button.setOnClickListener {
-            uploadImage()
-            findNavController().navigate(R.id.action_addPokemonFragment2_to_homeFragment2)
+            if (imageUri == null){Toast.makeText(requireContext(),"ADD IMAGE PLEASE",Toast.LENGTH_SHORT).show()}
+            else if (binding.number.text.isNullOrEmpty()){Toast.makeText(requireContext(),"PLEASE ADD POKEMON NUMBER",Toast.LENGTH_SHORT).show()}
+            else if (binding.name.text.isNullOrEmpty()){Toast.makeText(requireContext(),"PLEASE ADD POKEMON NAME",Toast.LENGTH_SHORT).show()}
+            else {
+                uploadImage()
+                findNavController().navigate(R.id.action_addPokemonFragment2_to_homeFragment2)
+            }
         }
 
     }
@@ -116,14 +121,15 @@ class AddPokemonFragment : Fragment() {
         // Had a hard time having to use it with MVVM this one.
         // Decided to put it here while i'm finding ways to do it .
         val ref = firebaseStorage.child(timeStamp.toString())
-        ref.putFile(imageUri!!).continueWithTask { task ->
+        val uploadTask = imageUri?.let { ref.putFile(it) }
+        uploadTask?.continueWithTask { task ->
             if (!task.isSuccessful) {
                 task.exception?.let {
                     throw it
                 }
             }
             ref.downloadUrl
-        }.addOnCompleteListener { task ->
+        }?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
                 Log.d("uri", downloadUri.toString())
