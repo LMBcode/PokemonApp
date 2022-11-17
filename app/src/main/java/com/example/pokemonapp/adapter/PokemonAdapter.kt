@@ -34,14 +34,11 @@ class PokemonAdapter(private val context : Context, private var pokemon : Mutabl
     }
     var pokemonFilter = pokemon
 
-    fun setDataFilter(){
-        this.pokemonFilter = pokemon
-    }
     class ViewHolder(val binding : PokemonitemBinding,listener : OnItemClickListener) : RecyclerView.ViewHolder(binding.root){
         init {
             binding.bookmark.setOnClickListener {
-                listener.onClick(adapterPosition)
                 binding.bookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
+                listener.onClick(adapterPosition)
             }
         }
     }
@@ -58,6 +55,9 @@ class PokemonAdapter(private val context : Context, private var pokemon : Mutabl
         val current = pokemon[position]
         holder.binding.name.text = current.name
         holder.binding.type.text = current.type
+        if (current.isSaved){
+            holder.binding.bookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
+        }
 
         when(current.type){
             "GRASS" -> {

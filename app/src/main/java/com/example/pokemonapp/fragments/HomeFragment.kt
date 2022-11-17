@@ -1,5 +1,6 @@
 package com.example.pokemonapp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -110,7 +111,6 @@ class HomeFragment : Fragment() {
     private fun database(){
        pokemonViewModel.getPokemon().observe(viewLifecycleOwner){
             adapter.updateList(it)
-           adapter.notifyDataSetChanged()
            adapter.setOnItemClickListener(object : PokemonAdapter.OnItemClickListener {
                override fun onClick(position: Int) {
                    if (authviewModel.currentUser != null) {
@@ -119,7 +119,8 @@ class HomeFragment : Fragment() {
                            id = pokemon.id,
                            name = pokemon.name,
                            type = pokemon.type,
-                           pokemonImage = pokemon.pokemonImage
+                           pokemonImage = pokemon.pokemonImage,
+                           isSaved = true
                        )
                        bookMarkViewModel.insertPokemon(obj)
                    }
@@ -128,7 +129,9 @@ class HomeFragment : Fragment() {
                    }
                }
            })
+           adapter.notifyDataSetChanged()
         }
+
     }
 
 

@@ -25,6 +25,7 @@ import com.example.pokemonapp.domain.Constants.POKEMON_HP
 import com.example.pokemonapp.domain.Constants.POKEMON_IMAGE
 import com.example.pokemonapp.domain.Constants.POKEMON_NAME
 import com.example.pokemonapp.domain.Constants.POKEMON_SIZE
+import com.example.pokemonapp.domain.Constants.POKEMON_SPECIE
 import com.example.pokemonapp.domain.Constants.POKEMON_SPEED
 import com.example.pokemonapp.domain.Constants.POKEMON_TYPE
 import com.example.pokemonapp.domain.Constants.POKEMON_WEIGHT
@@ -59,6 +60,7 @@ class DetailFragment : Fragment() {
         binding.pokemonAbility.text = arguments?.getString(POKEMON_ABILITY)
         binding.weight.text = arguments?.getString(POKEMON_WEIGHT) + " lbs"
         binding.height.text = arguments?.getString(POKEMON_SIZE)
+        binding.pokemonSpecie.text = arguments?.getString(POKEMON_SPECIE)
     }
 
     private fun progress(){

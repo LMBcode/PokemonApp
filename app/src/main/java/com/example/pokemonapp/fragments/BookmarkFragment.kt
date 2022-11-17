@@ -73,6 +73,7 @@ class BookmarkFragment : Fragment() {
             override fun onClick(position: Int) {
                 val pokemonList = pokemonList[position]
                 bookMarkViewModel.deletePokemon(pokemonList)
+                adapter.notifyItemRemoved(position)
             }
 
         })

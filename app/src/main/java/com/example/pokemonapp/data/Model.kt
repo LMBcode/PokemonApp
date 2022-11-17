@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Pokemon(
-    @PrimaryKey
-    val id : Int ?= null,
+    @PrimaryKey(autoGenerate = true)
+    val id : Int ?= null ,
     val name : String ?=null,
     val description : String ?= null,
     val type : String ?= null,
